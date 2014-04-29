@@ -1,0 +1,22 @@
+Array
+(
+    [api_id] => 3362690
+    [apiMsgId] => 55b49239ca0c36c3827b6dbd5eb64bd4
+    [cliMsgId] => 
+    [timestamp] => 1334243942
+    [to] => 27795016916
+    [from] => 
+    [status] => 003
+    [charge] => 1.000000
+)
+Array
+(
+    [api_id] => 3362690
+    [apiMsgId] => 55b49239ca0c36c3827b6dbd5eb64bd4
+    [cliMsgId] => 
+    [timestamp] => 1334243946
+    [to] => 27795016916
+    [from] => 
+    [status] => 004
+    [charge] => 1.000000
+)
