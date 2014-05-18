@@ -159,3 +159,11 @@ em {
     
     
 }
+
+.install_form span {
+    display: block;
+
+}
+.install_form label {
+    width:200px;
+}
