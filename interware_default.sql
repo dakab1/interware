@@ -1,7 +1,6 @@
 # Dumping database structure for interware
-CREATE DATABASE IF NOT EXISTS `interware` /*!40100 DEFAULT CHARACTER SET latin1 */;
+#CREATE DATABASE IF NOT EXISTS `interware` /*!40100 DEFAULT CHARACTER SET latin1 */;
 #USE `interware`;
-
 
 # Dumping structure for table interware.campaign
 CREATE TABLE IF NOT EXISTS `campaign` (
@@ -16,9 +15,6 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.campaign_mail
 CREATE TABLE IF NOT EXISTS `campaign_mail` (
   `campaign_id` int(11) NOT NULL COMMENT 'foreign key from campaign table',
@@ -31,9 +27,6 @@ CREATE TABLE IF NOT EXISTS `campaign_mail` (
   KEY `campaign_mail_mail_id` (`mail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.campaign_sms
 CREATE TABLE IF NOT EXISTS `campaign_sms` (
   `campaign_id` int(10) NOT NULL,
@@ -45,9 +38,6 @@ CREATE TABLE IF NOT EXISTS `campaign_sms` (
   KEY `status` (`status`),
   KEY `send_start_date` (`send_start_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.campaign_social
 CREATE TABLE IF NOT EXISTS `campaign_social` (
@@ -63,9 +53,6 @@ CREATE TABLE IF NOT EXISTS `campaign_social` (
   KEY `FK__social_network_oauth` (`social_network_oauth_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.event_log
 CREATE TABLE IF NOT EXISTS `event_log` (
   `id` int(10) NOT NULL auto_increment,
@@ -75,15 +62,6 @@ CREATE TABLE IF NOT EXISTS `event_log` (
   PRIMARY KEY  (`id`),
   KEY `date` (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-
-
-# Dumping structure for function interware.IsNumeric
-DELIMITER //
-//
-DELIMITER ;
-
 
 # Dumping structure for table interware.list
 CREATE TABLE IF NOT EXISTS `list` (
@@ -103,9 +81,6 @@ CREATE TABLE IF NOT EXISTS `list` (
   KEY `sent` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.mail
 CREATE TABLE IF NOT EXISTS `mail` (
   `id` int(11) NOT NULL auto_increment COMMENT 'unique mail identifier',
@@ -116,9 +91,6 @@ CREATE TABLE IF NOT EXISTS `mail` (
   `status` tinyint(4) NOT NULL default '0' COMMENT '0=not sent;1=queued;2=sent',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Contains email send details';
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.mail_attachment
 CREATE TABLE IF NOT EXISTS `mail_attachment` (
@@ -132,9 +104,6 @@ CREATE TABLE IF NOT EXISTS `mail_attachment` (
   KEY `mail_id` (`mail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.mail_sent
 CREATE TABLE IF NOT EXISTS `mail_sent` (
   `mail_id` int(11) NOT NULL COMMENT 'foreign key from the mail table',
@@ -144,9 +113,6 @@ CREATE TABLE IF NOT EXISTS `mail_sent` (
   KEY `mail_id` (`mail_id`,`list_id`),
   KEY `mail_sent_list_id` (`list_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.session
 CREATE TABLE IF NOT EXISTS `session` (
@@ -161,9 +127,6 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `expiry_date` (`expiry_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.sms
 CREATE TABLE IF NOT EXISTS `sms` (
   `id` int(10) NOT NULL auto_increment,
@@ -172,9 +135,6 @@ CREATE TABLE IF NOT EXISTS `sms` (
   PRIMARY KEY  (`id`),
   KEY `created_date` (`created_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.sms_sent
 CREATE TABLE IF NOT EXISTS `sms_sent` (
@@ -185,9 +145,6 @@ CREATE TABLE IF NOT EXISTS `sms_sent` (
   KEY `sms_id` (`sms_id`),
   KEY `list_id` (`list_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.social_network_oauth
 CREATE TABLE IF NOT EXISTS `social_network_oauth` (
@@ -204,9 +161,6 @@ CREATE TABLE IF NOT EXISTS `social_network_oauth` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Social network login credentials';
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.social_post
 CREATE TABLE IF NOT EXISTS `social_post` (
   `id` int(10) NOT NULL auto_increment COMMENT 'unique identifier for post',
@@ -216,17 +170,11 @@ CREATE TABLE IF NOT EXISTS `social_post` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-# Data exporting was unselected.
-
-
 # Dumping structure for table interware.unsubscribe
 CREATE TABLE IF NOT EXISTS `unsubscribe` (
   `email_address` varchar(50) NOT NULL,
   PRIMARY KEY  (`email_address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='List of people who have opted out of receiving communication';
-
-# Data exporting was unselected.
-
 
 # Dumping structure for table interware.user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -244,40 +192,3 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY  (`id`),
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Data exporting was unselected.
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-
-# Create admin user
-INSERT INTO `user` (
-`id` ,
-`name` ,
-`password` ,
-`status` ,
-`permission_emails` ,
-`permission_social_medias` ,
-`permission_reports` ,
-`permission_users` ,
-`permission_campaigns` ,
-`permission_sms` ,
-`permission_recipients`
-)
-VALUES (
-NULL ,  'admin@rdmconsulting.co.za',  '12345678',  '2',  '2',  '2',  '2',  '2',  '2',  '2',  '2'
-);
-
-# Create default campaign
-INSERT INTO `campaign` (
-`id` ,
-`name` ,
-`start_date` ,
-`user_id` ,
-`status` ,
-`end_date` ,
-`created_date`
-)
-VALUES (
-NULL ,  'Default Campaign',  '2012-03-01 00:00:00',  '1',  '1',  '2012-03-01 00:00:00', NULL
-);

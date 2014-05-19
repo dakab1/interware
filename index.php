@@ -191,7 +191,7 @@ if (!isset($_SESSION['emailer'])) {
         <div id="footer">
             <!--<hr noshade="noshade" />-->
             <p>&nbsp;</p>
-            <p>Copyright Reserved by DRM Consulting Pty(Ltd)</p>
+            <p>Interware <?=date("Y")?></p>
         </div>
                 
         
