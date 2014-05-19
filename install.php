@@ -130,6 +130,10 @@ if (isset($_POST['action'])) {
                 
                 //--- If all okay redirect to login page
                 if(!$error) {
+                    
+                    //--- Add cronjobs Linux/OSX only
+                    //exec('echo -e "`crontab -l`\n30 9 * * * /path/to/script" | crontab -');
+                    
                     die("<html><head><title>Interware installation</title><link type='text/css' href=\"css/emailer_general.css\" rel=\"stylesheet\" /></head><body><h1>Installation complete!</h1><p>Installation was successful. <a href='" . $domain_setup_domain_name. $domain_setup_path ."/login.php'>Click here</a> to login to interware.</p></body></html>");
                 }
                 
