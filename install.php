@@ -5,13 +5,7 @@
  * Date     :  18 May 2014    
  */
 
-include_once("modules/config.php");
-//include_once("modules/utils/php");
-
-//--- Show config file contents 
-if (DEBUG_MODE) {
-    echo "<textarea>" . file_get_contents("modules/config_template.php") . "</textarea>";
-}
+@include_once("modules/config.php");
 
 if (isset($_POST['action'])) {
 
@@ -119,23 +113,26 @@ if (isset($_POST['action'])) {
             }
 
             //--- Write new config file to the server
-            if ($fh = fopen($domain_setup_document_root . "/modules/config.php", "w")) {
+            if (!$error) {
+                if ($fh = fopen($domain_setup_document_root . "/modules/config.php", "w")) {
 
-                if (!fwrite($fh, $config_template)) {
+                    if (!fwrite($fh, $config_template)) {
+                        $message = "<span style='color:red'>Failed to write to $domain_setup_document_root/modules/config.php. Copy the contents of the following text area and manually create the config file via ftp <br/><textarea>$config_template</textarea></span>";
+                        $error = true;
+                    }
+
+                    //--- Close the config file
+                    fclose($fh);
+                } else {
                     $message = "<span style='color:red'>Failed to create $domain_setup_document_root/modules/config.php. Copy the contents of the following text area and manually create the config file via ftp <br/><textarea>$config_template</textarea></span>";
                     $error = true;
                 }
-
-                //--- Close the config file
-                fclose($fh);
-            } else {
-                $message = "<span style='color:red'>Failed to create $domain_setup_document_root/modules/config.php. Copy the contents of the following text area and manually create the config file via ftp <br/><textarea>$config_template</textarea></span>";
-                $error = true;
-            }
-
-            //--- If all okay redirect to login page
-            if(!$error) {
-                die("<html><head><title>Interware installation</title><link type='text/css' href=\"css/emailer_general.css\" rel=\"stylesheet\" /></head><body><h1>Installation complete!</h1><p>Installation was successful. <a href='" . $domain_setup_domain_name. $domain_setup_path ."/login.php'>Click here</a> to login to interware.</p></body></html>");
+                
+                //--- If all okay redirect to login page
+                if(!$error) {
+                    die("<html><head><title>Interware installation</title><link type='text/css' href=\"css/emailer_general.css\" rel=\"stylesheet\" /></head><body><h1>Installation complete!</h1><p>Installation was successful. <a href='" . $domain_setup_domain_name. $domain_setup_path ."/login.php'>Click here</a> to login to interware.</p></body></html>");
+                }
+                
             }
             
             break;
@@ -167,7 +164,7 @@ if (isset($_POST['action'])) {
                 <?= (!empty($database_error) ? $database_error : ""); ?>
                 <span><label>Host name</label><input class="required" type="text" name="database_setup_host_name" value="<?= ($database_setup_host_name ? $database_setup_host_name : "") ?>" />***</span><br/>
                 <span><label>Username</label><input class="required" type="text" name="database_setup_username" value="<?= ($database_setup_username ? $database_setup_username : "") ?>" />***</span><br/>
-                <span><label>Password</label><input class="required" type="text" name="database_setup_password" value="<?= ($database_setup_password ? $database_setup_password : "") ?>" />***</span><br/>
+                <span><label>Password</label><input class="" type="text" name="database_setup_password" value="<?= ($database_setup_password ? $database_setup_password : "") ?>" /></span><br/>
                 <span><label>Database name</label><input class="required" type="text" name="database_setup_database_name" value="<?= ($database_setup_database_name ? $database_setup_database_name : "") ?>" />***</span><br/>
                 <h3>Webmaster setup</h3>
                 <?= (!empty($webmaster_error) ? $webmaster_error : ""); ?>
