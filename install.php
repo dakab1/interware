@@ -27,7 +27,7 @@ if (isset($_POST['action'])) {
             //--- Connect to database using passed credentials
             $db = new mysqli($_POST['database_setup_host_name'], $_POST['database_setup_username'], $_POST['database_setup_password'], $_POST['database_setup_database_name']);
         
-            if (!empty(mysqli_connect_error())) {
+            if (mysqli_connect_error()) {
                 
                 $database_error = "<span style='color:red'>Database error \"" . mysqli_connect_error() . "\"</span>";
                 $error = true;

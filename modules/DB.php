@@ -1025,4 +1025,11 @@ function GetEmailCampaignIDByMailID ($mail_id) {
     
 }
 
-?>
+if (!mysql_connect(DBHOST, DBUSER, DBPASS)) {
+    die("Unable to connect to the DB server. If the problem persists please contact the webmaster");
+    define ("DB_CONNECTED", true);
+}
+
+if (!mysql_select_db(DBNAME)) {
+    die("Unable to find database. If the problem persists please contact the webmaster");
+}

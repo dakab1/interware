@@ -93,12 +93,3 @@ define ("DEBUG_MODE_CRONS", false); //debug action.php and disable output buffer
 
 //--- UI options
 define ("UI_ITEMS_PER_PAGE","20");
-
-if (!mysql_connect(DBHOST, DBUSER, DBPASS)) {
-    die("Unable to connect to the DB server. If the problem persists please contact the webmaster");
-    define ("DB_CONNECTED", true);
-}
-
-if (!mysql_select_db(DBNAME)) {
-    die("Unable to find database. If the problem persists please contact the webmaster");
-}
