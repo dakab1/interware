@@ -137,8 +137,8 @@ foreach (@$Response as $Mail) {
         ExecuteQuery($SQL);
                 
         if (DEBUG_MODE_CRONS) {
-            DebugBox("Mail send error", "<p>Failed to send email, posible opted out or mail server is down</p>");
-            UpdateLog(print_r($Mail,1), "Failed to send email, posible opted out or mail server is down");
+            DebugBox("Mail send error", "<p>Failed to send email, posible opted out or mail server is down or no sendmail installed on localhost</p>");
+            UpdateLog(print_r($Mail,1), "Failed to send email, posible opted out or mail server is down or no sendmail installed on localhost");
         }
         
     } else {
