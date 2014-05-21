@@ -144,7 +144,7 @@ foreach (@$Response as $Mail) {
     } else {
         
         //--- Update the email sent counter on the server resources
-        file_get_contents("http://www.example.com/interware_resources/set_email_limit.php?sent=1");
+        //file_get_contents("http://www.example.com/interware_resources/set_email_limit.php?sent=1");
             
         $SentCount++;
         
