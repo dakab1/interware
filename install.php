@@ -161,14 +161,13 @@ if (isset($_POST['action'])) {
                 }
                 
                 
-                //if($fh2 = fopen($domain_setup_document_root."/crons/crontab.txt", "w")) {
-                if($fh2 = fopen("/tmp/crontab.txt", "w")) {
+                if($fh2 = fopen($domain_setup_document_root."/crons/crontab.txt", "w")) {
 
                     //--- Get existing cronjobs
                     //$existing = exec("crontab -l");
 
-                    //                    //--- Write new cronjobs
-                    $new_crons = "\n* * * * * " . $domain_setup_document_root."/crons/crons.sh 2>&1 >> ".$domain_setup_document_root."/crons/cron.log";
+                    //--- Write new cronjobs
+                    $new_crons = "\n* * * * * " . $domain_setup_document_root."/crons/crons.sh 2>&1 >> ".$domain_setup_document_root."/crons/cron.log\n";
                     if (!fwrite($fh2,$existing.$new_crons)) {
                         
                         $message = "<span style='color:red'>Failed to write to cronjobs text file.  Try create them manually</span>";
@@ -177,8 +176,7 @@ if (isset($_POST['action'])) {
                     } else {
 
                         //--- Add new cronjobs
-                        //echo exec("crontab ".$domain_setup_document_root."/crons/crontab.txt");
-                        echo exec("crontab /tmp/crontab.txt");
+                        echo exec("crontab ".$domain_setup_document_root."/crons/crontab.txt");
 
                     }
 
