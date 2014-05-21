@@ -128,13 +128,76 @@ if (isset($_POST['action'])) {
                     $error = true;
                 }
                 
+                //--- Add cronjobs Linux/OSX only
+                
+                //Create SH file to execute cronjobs
+                if($fh3 = fopen($domain_setup_document_root."/crons/crons.sh", "w")) {
+                    
+                    //Change to cron directory
+                    fwrite($fh3,"#!/bin/bash");
+                    fwrite($fh3,"\ncd " . $domain_setup_document_root ."/crons");
+                    
+                    $php_path = exec("which php");//TODO: Validate response is proper php path
+                    
+                    try {
+                        fwrite($fh3,"\n" . $php_path . " " . $domain_setup_document_root. "/crons/send_mail.php");
+                        fwrite($fh3,"\n" . $php_path . " " .$domain_setup_document_root. "/crons/send_sms.php");
+                        fwrite($fh3,"\n" . $php_path . " " .$domain_setup_document_root. "/crons/send_social_post.php");
+                        fwrite($fh3,"\n" . $php_path . " " .$domain_setup_document_root. "/crons/trigger_mail.php");
+                        fwrite($fh3,"\n" . $php_path . " " .$domain_setup_document_root. "/crons/trigger_sms.php");
+                    } catch(Exception $e) {
+                        $message = "<span style='color:red'>Failed to write .sh file of scheduled scripts</span>";
+                        $error = true;
+                    }
+                    
+                    fclose($fh3);
+                    
+                    //--- Give 755 permission
+                    if(!chmod ($domain_setup_document_root . "/crons/crons.sh","755")) echo "Failed to change permissions";
+                    
+                } else {
+                    $message = "<span style='color:red'>Failed to create .sh file of scheduled scripts</span>";
+                    $error = true;
+                }
+                
+                
+                //if($fh2 = fopen($domain_setup_document_root."/crons/crontab.txt", "w")) {
+                if($fh2 = fopen("/tmp/crontab.txt", "w")) {
+
+                    //--- Get existing cronjobs
+                    //$existing = exec("crontab -l");
+
+                    //                    //--- Write new cronjobs
+                    $new_crons = "\n* * * * * " . $domain_setup_document_root."/crons/crons.sh 2>&1 >> ".$domain_setup_document_root."/crons/cron.log";
+                    if (!fwrite($fh2,$existing.$new_crons)) {
+                        
+                        $message = "<span style='color:red'>Failed to write to cronjobs text file.  Try create them manually</span>";
+                        $error=true;
+                        
+                    } else {
+
+                        //--- Add new cronjobs
+                        //echo exec("crontab ".$domain_setup_document_root."/crons/crontab.txt");
+                        echo exec("crontab /tmp/crontab.txt");
+
+                    }
+
+                    //--- Close file containing crons
+                    fclose($fh2);
+
+                } else {
+                    
+                    $message = "<span style='color:red'>Failed to open cronjobs text file.  Try create them manually</span>";
+                    $error=true;
+                    
+                }
+
                 //--- If all okay redirect to login page
                 if(!$error) {
                     
-                    //--- Add cronjobs Linux/OSX only
-                    //exec('echo -e "`crontab -l`\n30 9 * * * /path/to/script" | crontab -');
-                    
+                    //--- Display installation confirmation
                     die("<html><head><title>Interware installation</title><link type='text/css' href=\"css/emailer_general.css\" rel=\"stylesheet\" /></head><body><h1>Installation complete!</h1><p>Installation was successful. <a href='" . $domain_setup_domain_name. $domain_setup_path ."/login.php'>Click here</a> to login to interware.</p></body></html>");
+                    
                 }
                 
             }
