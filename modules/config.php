@@ -3,19 +3,19 @@ ini_set("display_errors","no");
 global $FacebookConfig;
 
 //--- Site settings
-define ("THISURL","");
-define ("WEBMASTER", "");
+define ("THISURL","http://localhost");
+define ("WEBMASTER", "dean@rdmconsulting.co.za");
 define ("TITLE", "Interware");
-define ("PATH", "");
-define ("HOMEPWD", "");
+define ("PATH", "/interware");
+define ("HOMEPWD", "/var/www/html");
 define ("TEMPLATE_FOLDER","media/templates");
 
 //--- SMS settings
-define ("SMS_USER","");
-define ("SMS_PASS","");
-define ("SMS_CLIENT_ID","");
-define ("SMS_API_URL","");
-define ("SMS_API_ID", "");
+define ("SMS_USER","[<SMS_USER>]");
+define ("SMS_PASS","[<SMS_PASS>]");
+define ("SMS_CLIENT_ID","[<SMS_CLIENT_ID>]");
+define ("SMS_API_URL","[<SMS_API_URL>]");
+define ("SMS_API_ID", "[<SMS_API_ID>]");
 
 //--- Twitter settings
 define('CONSUMER_KEY', '');
@@ -72,10 +72,10 @@ $Permissions = array (
 );
 
 //--- DB settings
-define ("DBUSER", "");
-define ("DBPASS", "");
-define ("DBNAME","");
-define ("DBHOST","");
+define ("DBUSER", "root");
+define ("DBPASS", "istanbul");
+define ("DBNAME","interware");
+define ("DBHOST","localhost");
 
 //--- Database predefined values
 define ("STATUS_CANCELLED","-1");
