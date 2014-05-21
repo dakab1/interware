@@ -23,7 +23,7 @@ function CorrectLinks ($content) {
 
 function UpdateLog($Trail, $Error, $Filename = "error.log") {
     
-    if ($Handle = fopen("logs/" . $Filename, "a")) {
+    if ($Handle = fopen(HOMEPWD.PATH. "/logs/" . $Filename, "a")) {
         
         if(!fwrite($Handle,"\n" .date("Y-m-d H:i:s") . " | \nCalls:" . print_r($Trail,1) ."\n $Error")) {
             

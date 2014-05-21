@@ -104,6 +104,7 @@ foreach (@$Response as $Mail) {
     $resource = file_get_contents("http://www.example.com/interware_resources/check_email_limit.php");
     
     //--- Set a lock so that cron doesnt run until an hour later
+    /*
     if($resource!="1"){
 
         if (DEBUG_MODE_CRONS) {
@@ -118,7 +119,8 @@ foreach (@$Response as $Mail) {
         break; //stop looping
 
     } 
-
+    */
+    
     //--- Check to see if the email has attachments
     $Attachments = RetrieveMailAttachments($Mail['id']);
     
