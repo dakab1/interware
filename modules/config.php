@@ -73,7 +73,7 @@ $Permissions = array (
 
 //--- DB settings
 define ("DBUSER", "root");
-define ("DBPASS", "istanbul");
+define ("DBPASS", "");
 define ("DBNAME","interware");
 define ("DBHOST","localhost");
 

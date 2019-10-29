@@ -1,6 +1,80 @@
 <?php
+
+global $connection;
+
+
 include_once ("config.php");
 include_once ("utils.php");
+
+$connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+if (!$connection) {
+    die("Unable to connect to the DB server. If the problem persists please contact the webmaster");
+    define ("DB_CONNECTED", true);
+}
+
+function ExecuteQuery ($q) {
+
+    global $connection;
+
+    //--- Ensure all SQL keywords passed to this query are in capital letters            
+    $Results = mysqli_query($connection, $q);
+    
+    //--- Debug log all SQL queries
+    if (DEBUG_MODE) { 
+        UpdateLog(debug_backtrace(), $q, "sql_queries.txt");
+        echo "\n<br/><div style='color:red; border: 1px solid red;'>";
+        echo "\n<br/>Source -> " . debug_print_backtrace();
+        print_r($_REQUEST);
+        echo "\n<br/>Query -> " . $q;
+        
+        if (mysqli_error($connection)!="") {
+            
+            UpdateLog(debug_backtrace(), mysqli_error($connection), "sql_errors.txt");
+            echo "\n<br/>Mysql Error -> " . mysqli_error($connection);      
+        
+        } 
+        
+        echo "\n</div>";
+    }
+
+    if (!$Results) {
+
+        UpdateLog($q, mysqli_error($connection));
+        if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Not handled because of error(" . mysqli_error($connection) . ") and returned [false]" , "utils.txt");
+        
+        return false;
+        
+    } else {
+        
+        if (strpos("  " . $q, "INSERT")) {
+            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as INSERT and returned [" . mysql_insert_id() ."]" , "utils.txt");
+            return mysqli_insert_id($connection);
+        }
+        
+        if (strpos("  " . $q, "SELECT") || strpos("  " . $q, "SHOW") || strpos("  " . $q, "DESCRIBE") || strpos("  " . $q, "EXPLAIN")) {
+            while ($Result = mysqli_fetch_assoc($Results)) {
+
+                $Data[] = $Result;
+            }
+
+            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as SELECT and returned [" . print_r($Data,1) ."]" , "utils.txt");
+
+            return $Data;
+        }
+        
+        if (strpos("  " . $q, "DELETE") || strpos("  " . $q, "REPLACE") || strpos("  " . $q, "UPDATE")) {
+            
+            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as DELETE|REPLACE|UPDATE and returned [" . mysql_affected_rows() ."]" , "utils.txt");
+            return mysqli_affected_rows($connection);
+        }
+        
+        if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as UNKOWN and returned [true]" , "utils.txt");
+        return true;
+        
+    }
+    
+}        
 
 function SaveSocialPost ($user_id, $text, $id = false) {
     
@@ -1025,11 +1099,3 @@ function GetEmailCampaignIDByMailID ($mail_id) {
     
 }
 
-if (!mysql_connect(DBHOST, DBUSER, DBPASS)) {
-    die("Unable to connect to the DB server. If the problem persists please contact the webmaster");
-    define ("DB_CONNECTED", true);
-}
-
-if (!mysql_select_db(DBNAME)) {
-    die("Unable to find database. If the problem persists please contact the webmaster");
-}

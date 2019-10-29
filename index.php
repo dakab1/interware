@@ -1,6 +1,6 @@
 <?php
 //--- Check if the user is logged in
-session_start($_GET["s"]);
+session_start([$_GET["s"]]);
 
 if (!isset($_SESSION['emailer'])) {
     

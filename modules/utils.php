@@ -1,5 +1,6 @@
 <?php
 @include_once ("modules/config.php");
+
 function PersonalizeMessage ($message, $list) {
     
     $message = $message;
@@ -42,67 +43,6 @@ function UpdateLog($Trail, $Error, $Filename = "error.log") {
         } else {
             echo "___\n<-- debug: failed to open error log file\n\tCalls:$Trail\n\t$Error\n-->";
         }
-    }
-    
-}
-
-function ExecuteQuery ($q) {
-//--- Ensure all SQL keywords passed to this query are in capital letters        
-
-    $Results = mysql_query($q);
-    
-    //--- Debug log all SQL queries
-    if (DEBUG_MODE) { 
-        UpdateLog(debug_backtrace(), $q, "sql_queries.txt");
-        echo "\n<br/><div style='color:red; border: 1px solid red;'>";
-        echo "\n<br/>Source -> " . debug_print_backtrace();
-        print_r($_REQUEST);
-        echo "\n<br/>Query -> " . $q;
-        
-        if (mysql_error()!="") {
-            
-            UpdateLog(debug_backtrace(), mysql_error(), "sql_errors.txt");
-            echo "\n<br/>Mysql Error -> " . mysql_error();      
-        
-        } 
-        
-        echo "\n</div>";
-    }
-
-    if (!$Results) {
-
-        UpdateLog($q, mysql_error());
-        if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Not handled because of error(" . mysql_error() . ") and returned [false]" , "utils.txt");
-        
-        return false;
-        
-    } else {
-        
-        if (strpos("  " . $q, "INSERT")) {
-            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as INSERT and returned [" . mysql_insert_id() ."]" , "utils.txt");
-            return mysql_insert_id();
-        }
-        
-        if (strpos("  " . $q, "SELECT") || strpos("  " . $q, "SHOW") || strpos("  " . $q, "DESCRIBE") || strpos("  " . $q, "EXPLAIN")) {
-            while ($Result = mysql_fetch_assoc($Results)) {
-
-                $Data[] = $Result;
-            }
-
-            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as SELECT and returned [" . print_r($Data,1) ."]" , "utils.txt");
-
-            return $Data;
-        }
-        
-        if (strpos("  " . $q, "DELETE") || strpos("  " . $q, "REPLACE") || strpos("  " . $q, "UPDATE")) {
-            
-            if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as DELETE|REPLACE|UPDATE and returned [" . mysql_affected_rows() ."]" , "utils.txt");
-            return mysql_affected_rows();
-        }
-        
-        if (DEBUG_MODE) UpdateLog (debug_backtrace (), "Handled as UNKOWN and returned [true]" , "utils.txt");
-        return true;
-        
     }
     
 }
@@ -415,7 +355,7 @@ function LoginUser($user_id) {
     $_SESSION['emailer'] = $User; 
     
     //--- Set a custom session name
-    session_name("DRM_Emailer");
+    session_name(["DRM_Emailer"]);
     
     SaveEvent($_SESSION['emailer']['id'], "Logged in to admin tool", date("Y-m-d H:i:s"));
     
@@ -450,7 +390,7 @@ function OptedOut ($email_address) {
 
 function UpdateBreadcrumb ($pagename, $url) {
     
-    session_start();
+    // session_start();
     
     //--- Protect againist updating the breadcrumb on page reload
     if ($_SESSION['emailer']["breadcrumb"][count($_SESSION['emailer']["breadcrumb"])-1]['url'] != $url) {

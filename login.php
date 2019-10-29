@@ -88,7 +88,9 @@ if (isset($_GET['logout'])) {
             <form method="post" id="loginForm">
                 <p style="font-weight:bolder">Please enter your login and password.</p>
                 <?php
-                if ($Error) echo "<span style='font:bold;color: red'>" . ($Error!="" ? $Error : "Invalid username or password.") . "</span>";
+                if (isset($Error)){
+                    if ($Error) echo "<span style='font:bold;color: red'>" . ($Error!="" ? $Error : "Invalid username or password.") . "</span>";
+                }
                 ?>
                 <p>Username <input id="u" name="u" type="text "class="required"/></p>
                 <p>Password &nbsp;<input name="p" type="password" class="required" /></p>
