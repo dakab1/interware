@@ -28,7 +28,7 @@ if($sms_ids!=""){
     if (!$Response = ExecuteQuery($SQL)) {
         echo "<p>No records updated</p>";
     } else {
-        echo "<p>" . mysqli_affected_rows(). " records updated.</p>";
+        echo "<p>" . mysqli_affected_rows($connection). " records updated.</p>";
     }
     
 }
