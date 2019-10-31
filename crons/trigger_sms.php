@@ -16,6 +16,7 @@ $SQL = "SELECT `sms_id` FROM `campaign_sms` WHERE `send_start_date` >= '" . date
 
 $Response = ExecuteQuery($SQL);
 
+$sms_ids = "";
 foreach($Response as $id) {
     $sms_ids .= $id['sms_id'] . ",";
 }

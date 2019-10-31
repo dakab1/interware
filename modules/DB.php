@@ -910,6 +910,8 @@ function SMSCampaignExists($campaign_id, $sms_id) {
 
 function SaveSMSCampaign ($campaign_id, $sms_id, $status = 0, $send_start_date = null){
 
+    $status = (!$status ? 0 : $status);
+
     if (SMSCampaignExists($campaign_id, $sms_id)) {
         
         $SQL = "UPDATE campaign_sms SET `status` = '$status', `send_start_date` = '$send_start_date' WHERE `campaign_id` = '$campaign_id' AND `sms_id` = '$sms_id'";
